@@ -1,0 +1,16 @@
+meta {
+  name: Get all french expressions
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8080/expressions/french
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

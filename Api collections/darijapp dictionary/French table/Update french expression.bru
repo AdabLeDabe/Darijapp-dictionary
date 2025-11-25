@@ -1,0 +1,24 @@
+meta {
+  name: Update french expression
+  type: http
+  seq: 2
+}
+
+put {
+  url: http://localhost:8080/expressions/french/2
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "id": 0,
+    "expression": "salam",
+    "detail": "on est là"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

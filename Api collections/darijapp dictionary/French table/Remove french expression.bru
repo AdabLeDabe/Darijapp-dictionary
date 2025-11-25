@@ -1,0 +1,16 @@
+meta {
+  name: Remove french expression
+  type: http
+  seq: 2
+}
+
+delete {
+  url: http://localhost:8080/expressions/french/2
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

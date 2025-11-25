@@ -1,0 +1,16 @@
+meta {
+  name: Remove arabic expression
+  type: http
+  seq: 5
+}
+
+delete {
+  url: http://localhost:8080/expressions/arabic/3
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

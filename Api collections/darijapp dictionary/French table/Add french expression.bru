@@ -1,0 +1,23 @@
+meta {
+  name: Add french expression
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/expressions/french
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "expression": "un ptit dernier",
+    "detail": "en détente quoi"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

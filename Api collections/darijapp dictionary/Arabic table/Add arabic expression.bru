@@ -1,0 +1,24 @@
+meta {
+  name: Add arabic expression
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/expressions/arabic
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "expression_arabic": "le_mot",
+    "expression_phonetic": "has_arrived",
+    "variant": 1
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

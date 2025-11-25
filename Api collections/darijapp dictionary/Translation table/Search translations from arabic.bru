@@ -1,0 +1,16 @@
+meta {
+  name: Search translations from arabic
+  type: http
+  seq: 7
+}
+
+get {
+  url: http://localhost:8080/translations/search/from_arabic/5
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

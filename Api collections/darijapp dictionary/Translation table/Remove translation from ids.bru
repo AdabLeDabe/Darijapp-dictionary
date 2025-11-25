@@ -1,0 +1,23 @@
+meta {
+  name: Remove translation from ids
+  type: http
+  seq: 5
+}
+
+delete {
+  url: http://localhost:8080/translations
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "french_id": 1,
+    "arabic_id": 2
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
