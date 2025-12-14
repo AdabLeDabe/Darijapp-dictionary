@@ -2,7 +2,6 @@ package main
 
 import (
 	"darijapp-dictionary-api/api_controller"
-	"darijapp-dictionary-api/config"
 	"darijapp-dictionary-api/database"
 	"darijapp-dictionary-api/logger"
 	"database/sql"
@@ -13,38 +12,37 @@ import (
 )
 
 func main() {
-	config.LoadConfiguration()
-
 	adminDb, appDb := InitializeDatabase()
-	defer adminDb.Close()
-	defer appDb.Close()
-
 	api_controller.SetDB(appDb)
 	router := api_controller.IntializeRouter()
 
 	logger.Log("Server starting on :8080")
 	log.Fatal(http.ListenAndServe(":8080", router))
+
+	defer adminDb.Close()
+	defer appDb.Close()
 }
 
 func InitializeDatabase() (*sql.DB, *sql.DB) {
-	config := must(config.GetConfiguration())
-	adminDb := must(database.ConnectToPostgreServer())
+	adminDb := must(database.ConnectToPostgreServer("localhost", 5432, "admin_user", "le_admin"))
 	logger.Log("Successfully connected to postgre server.")
 
-	dbExists := must(database.DatabaseExists(adminDb))
+	dbName := "darijapp_dictionary"
+
+	dbExists := must(database.DatabaseExists(adminDb, dbName))
 
 	var appDb *sql.DB
 
 	if dbExists {
-		logger.Log(fmt.Sprint("The database ", config.DbName, " exists."))
-		appDb = must(database.ConnectToDatabase(adminDb))
-		logger.Log(fmt.Sprint("Successfully connected to database ", config.DbName))
+		logger.Log(fmt.Sprint("The database ", dbName, " exists."))
+		appDb = must(database.ConnectToDatabase(adminDb, "localhost", 5432, "admin_user", "le_admin"))
+		logger.Log(fmt.Sprint("Successfully connected to database ", dbName))
 	} else {
-		logger.Log(fmt.Sprint("The database ", config.DbName, " does not exist."))
+		logger.Log(fmt.Sprint("The database ", dbName, " does not exist."))
 		mustWithNoReturn(database.CreateDatabase(adminDb))
-		appDb = must(database.ConnectToDatabase(adminDb))
+		appDb = must(database.ConnectToDatabase(adminDb, "localhost", 5432, "admin_user", "le_admin"))
 		mustWithNoReturn(database.CreateTables(appDb))
-		logger.Log(fmt.Sprint("Successfully created database ", config.DbName, " and its tables."))
+		logger.Log(fmt.Sprint("Successfully created database ", dbName, " and its tables."))
 	}
 
 	return adminDb, appDb

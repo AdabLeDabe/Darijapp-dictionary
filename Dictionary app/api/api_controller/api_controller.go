@@ -20,11 +20,26 @@ type French struct {
 	Detail     string `db:"detail" json:"detail"`
 }
 
+type FrenchWithTranslations struct {
+	Id           int             `db:"id" json:"id"`
+	Expression   string          `db:"expression" json:"expression"`
+	Detail       string          `db:"detail" json:"detail"`
+	Translations json.RawMessage `db:"translations" json:"translations"`
+}
+
 type Arabic struct {
 	Id                 int    `db:"id" json:"id"`
 	ExpressionArabic   string `db:"expression_arabic" json:"expression_arabic"`
 	ExpressionPhonetic string `db:"expression_phonetic" json:"expression_phonetic"`
 	Variant            int    `db:"variant" json:"variant"`
+}
+
+type ArabicWtihTranslations struct {
+	Id                 int             `db:"id" json:"id"`
+	ExpressionArabic   string          `db:"expression_arabic" json:"expression_arabic"`
+	ExpressionPhonetic string          `db:"expression_phonetic" json:"expression_phonetic"`
+	Variant            int             `db:"variant" json:"variant"`
+	Translations       json.RawMessage `db:"translations" json:"translations"`
 }
 
 type Translation struct {
@@ -43,13 +58,14 @@ func IntializeRouter() *mux.Router {
 	router := mux.NewRouter()
 
 	HandleFuncWithLogs(router, "/expressions/french", getAllFrench).Methods("GET")
-	HandleFuncWithLogs(router, "/expressions/french", getAllFrench).Methods("GET")
+	HandleFuncWithLogs(router, "/expressions/frenchWithTranslations", getAllFrenchWithTranslations).Methods("GET")
 	HandleFuncWithLogs(router, "/expressions/french/{id}", getFrench).Methods("GET")
 	HandleFuncWithLogs(router, "/expressions/french", addFrench).Methods("POST")
 	HandleFuncWithLogs(router, "/expressions/french/{id}", updateFrench).Methods("PUT")
 	HandleFuncWithLogs(router, "/expressions/french/{id}", deleteFrench).Methods("DELETE")
 
 	HandleFuncWithLogs(router, "/expressions/arabic", getAllArabic).Methods("GET")
+	HandleFuncWithLogs(router, "/expressions/arabicWithTranslations", getAllArabicWithTranslations).Methods("GET")
 	HandleFuncWithLogs(router, "/expressions/arabic/{id}", getArabic).Methods("GET")
 	HandleFuncWithLogs(router, "/expressions/arabic", addArabic).Methods("POST")
 	HandleFuncWithLogs(router, "/expressions/arabic/{id}", updateArabic).Methods("PUT")
@@ -89,6 +105,48 @@ func getAllFrench(w http.ResponseWriter, r *http.Request) error {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		fmt.Println(err.Error())
+		return err
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(frenchItems)
+	return nil
+}
+
+func getAllFrenchWithTranslations(w http.ResponseWriter, r *http.Request) error {
+	query := `
+		SELECT 
+			f.id,
+			f.expression,
+			f.detail,
+			COALESCE(
+				json_agg(
+					json_build_object(
+						'id', a.id,
+						'expression_arabic', a.expression_arabic,
+						'expression_phonetic', a.expression_phonetic,
+						'variant', a.variant
+					)
+				) FILTER (WHERE a.id IS NOT NULL),
+				'[]'::json
+			) AS translations
+		FROM 
+			french f
+		LEFT JOIN 
+			translation t ON f.id = t.french_id
+		LEFT JOIN 
+			arabic a ON t.arabic_id = a.id
+		GROUP BY 
+			f.id, f.expression, f.detail
+		ORDER BY 
+			f.id
+	`
+
+	frenchItems := []FrenchWithTranslations{}
+
+	err := db.Select(&frenchItems, query)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return err
 	}
 
@@ -195,6 +253,48 @@ func getAllArabic(w http.ResponseWriter, r *http.Request) error {
 	arabicItems := []Arabic{}
 
 	err := db.Select(&arabicItems, "SELECT * FROM arabic")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return err
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(arabicItems)
+	return nil
+}
+
+func getAllArabicWithTranslations(w http.ResponseWriter, r *http.Request) error {
+	query := `
+		SELECT 
+			a.id,
+			a.expression_arabic,
+			a.expression_phonetic,
+			a.variant,
+			COALESCE(
+				json_agg(
+					json_build_object(
+						'id', f.id,
+						'expression', f.expression,
+						'detail', f.detail
+					)
+				) FILTER (WHERE f.id IS NOT NULL),
+				'[]'::json
+			) AS translations
+		FROM 
+			arabic a
+		LEFT JOIN 
+			translation t ON a.id = t.arabic_id
+		LEFT JOIN 
+			french f ON t.french_id = f.id
+		GROUP BY 
+			a.id, a.expression_arabic, a.expression_phonetic, a.variant
+		ORDER BY 
+			a.id
+	`
+
+	arabicItems := []ArabicWtihTranslations{}
+
+	err := db.Select(&arabicItems, query)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return err

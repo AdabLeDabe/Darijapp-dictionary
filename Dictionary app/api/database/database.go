@@ -1,7 +1,6 @@
 package database
 
 import (
-	"darijapp-dictionary-api/config"
 	"database/sql"
 	"fmt"
 	"os"
@@ -9,14 +8,9 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func ConnectToPostgreServer() (*sql.DB, error) {
-	config, err := config.GetConfiguration()
-	if err != nil {
-		return nil, err
-	}
-
+func ConnectToPostgreServer(host string, port int, user string, password string) (*sql.DB, error) {
 	defaultDbName := "postgres"
-	psqlInfo := getConnectionString(config, defaultDbName)
+	psqlInfo := getConnectionString(host, port, user, password, defaultDbName)
 
 	db, err := connectAndPing(psqlInfo)
 	if err != nil {
@@ -27,15 +21,10 @@ func ConnectToPostgreServer() (*sql.DB, error) {
 	return db, nil
 }
 
-func DatabaseExists(db *sql.DB) (bool, error) {
-	config, err := config.GetConfiguration()
-	if err != nil {
-		return false, err
-	}
-
+func DatabaseExists(db *sql.DB, dbName string) (bool, error) {
 	var dbExists bool
 	query := "SELECT EXISTS(SELECT 1 FROM pg_database WHERE datname = $1);"
-	err = db.QueryRow(query, config.DbName).Scan(&dbExists)
+	err := db.QueryRow(query, dbName).Scan(&dbExists)
 	if err != nil {
 		return false, err
 	}
@@ -57,13 +46,9 @@ func CreateDatabase(baseDb *sql.DB) error {
 	return nil
 }
 
-func ConnectToDatabase(baseDb *sql.DB) (*sql.DB, error) {
-	config, err := config.GetConfiguration()
-	if err != nil {
-		return nil, err
-	}
-
-	psqlInfo := getConnectionString(config, config.DbName)
+func ConnectToDatabase(baseDb *sql.DB, host string, port int, user string, password string) (*sql.DB, error) {
+	dbName := "darijapp_dictionary"
+	psqlInfo := getConnectionString(host, port, user, password, dbName)
 
 	appDb, err := connectAndPing(psqlInfo)
 	if err != nil {
@@ -88,9 +73,9 @@ func CreateTables(appDb *sql.DB) error {
 	return nil
 }
 
-func getConnectionString(cfg config.Config, dbName string) string {
+func getConnectionString(host string, port int, user string, password string, dbName string) string {
 	return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		cfg.Host, cfg.Port, cfg.User, cfg.Password, dbName)
+		host, port, user, password, dbName)
 }
 
 func connectAndPing(connectionString string) (*sql.DB, error) {
