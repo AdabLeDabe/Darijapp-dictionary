@@ -1,23 +1,24 @@
 import { useState, useEffect } from 'react';
 import '../App.css'
-import type { French } from '../models/French';
+import type { FrenchWithTranslations } from '../models/FrenchWithTranslations';
+import { GetVariantDisplay } from '../helpers/ArabicDisplay';
 
 function FrenchExpressionsList() {
-  const [data, setData] = useState<French[]>([]);
+  const [frenchExpressions, setFrenchExpressions] = useState<FrenchWithTranslations[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('api/expressions/french');
+        const response = await fetch('api/expressions/frenchWithTranslations');
         
         if (!response.ok) {
           throw new Error('Failed to fetch');
         }
 
         const result = await response.json();
-        setData(result);
+        setFrenchExpressions(result);
       } catch(err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
@@ -34,11 +35,22 @@ function FrenchExpressionsList() {
     return <div>Error: {error}</div>
 
   return <div>
-    <ul>
-      {data.map((item) => (
-        <li key={item.id}>{item.expression}</li>
-      ))}
-    </ul>
+    <table>
+        <tr>
+            <th>French</th>
+            <th>Arabic</th>
+        </tr>
+        {frenchExpressions.map((item) => (
+            <tr key={item.id}>
+                <td>{item.expression} <i>{item.detail}</i></td>
+                <td>
+                    {item.translations.map((arabicItem) => (
+                        <span>{arabicItem.expression_arabic} / {arabicItem.expression_phonetic} {GetVariantDisplay(arabicItem.variant)}</span>
+                    ))}
+                </td>
+            </tr>
+        ))}
+    </table>
   </div>
 }
 
