@@ -10,14 +10,14 @@
 .expression-table {
     border-radius: 1rem;
     overflow: hidden;
-    box-shadow: 0rem 1rem 3rem -1rem #1f3a57;
-
+    box-shadow: 0rem 1rem 3rem -1rem #735751;
 }
 
 .expression-table-header {
-    background-image: linear-gradient(to bottom, #3e76b1, #16477a);
+    background-image: linear-gradient(to bottom, #bf4342, #8c1c13);
     flex-direction: row;
     display: flex;
+    color: white;
 }
 
 .expression-table-row {
@@ -25,14 +25,24 @@
     display: flex;
 }
 
-
 .expression-table-row:nth-child(odd) {
-    background-color: #2b5581;
+    background-color: #cabca8;
+}
+
+.expression-table-row-selected {
+    flex-direction: row;
+    display: flex;
+    background-color: #8c1c13;
+    color:  white;
+}
+
+.expression-table-row-selected:nth-child(odd) {
+    background-color: #8c1c13;
 }
 
 .expression-table-row:hover {
-    background-color: #86c0ff;
-    color:  #325d8b;
+    background-color: #bf4342;
+    color:  white;
 }
 
 .expression-table-cell {
@@ -48,7 +58,7 @@
 
 .expression-table-arabic-word {
     padding: 0.5rem 1rem;
-    background-color: #3e76b1;
+    background-color: #735751;
     border-radius: 0.5rem;
     color: white;
 }

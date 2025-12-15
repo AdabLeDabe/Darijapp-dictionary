@@ -5,6 +5,7 @@ import { GetVariantDisplay } from '../helpers/ArabicDisplay';
 
 function FrenchExpressionsList() {
   const [frenchExpressions, setFrenchExpressions] = useState<FrenchWithTranslations[]>([]);
+  const [selectedItem, setSelectedItem] = useState<FrenchWithTranslations | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -41,7 +42,10 @@ function FrenchExpressionsList() {
       <div className='expression-table-cell'>Arabic</div>
     </div>
     {frenchExpressions.map((item) => (
-        <div key={item.id} className='expression-table-row'>
+        <div
+        key={item.id}
+        className={'expression-table-row' + (selectedItem?.id === item.id ? ' expression-table-row-selected' : '')}
+        onClick={() => setSelectedItem(item)}>
             <div className='expression-table-cell'>{item.expression} <i>{item.detail}</i></div>
             <div className='expression-table-cell'>
                 {item.translations.map((arabicItem) => (
