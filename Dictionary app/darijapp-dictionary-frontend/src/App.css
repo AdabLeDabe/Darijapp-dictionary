@@ -36,10 +36,6 @@
     color:  white;
 }
 
-.expression-table-row-selected:nth-child(odd) {
-    background-color: #8c1c13;
-}
-
 .expression-table-row:hover {
     background-color: #bf4342;
     color:  white;

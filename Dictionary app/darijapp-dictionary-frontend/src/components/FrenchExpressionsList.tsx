@@ -44,7 +44,7 @@ function FrenchExpressionsList() {
     {frenchExpressions.map((item) => (
         <div
         key={item.id}
-        className={'expression-table-row' + (selectedItem?.id === item.id ? ' expression-table-row-selected' : '')}
+        className={(selectedItem?.id === item.id ? 'expression-table-row-selected' : 'expression-table-row')}
         onClick={() => setSelectedItem(item)}>
             <div className='expression-table-cell'>{item.expression} <i>{item.detail}</i></div>
             <div className='expression-table-cell'>
