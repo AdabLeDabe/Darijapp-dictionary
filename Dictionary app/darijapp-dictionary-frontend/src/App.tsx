@@ -8,25 +8,25 @@ function App() {
     const [isEditMode, setEditMode] = useState(false);
     const [selectedFrenchItem, setSelectedFrenchItem] = useState<FrenchWithTranslations | null>(null);
 
-    function AddCallback() {
+    function addCallback() {
         setSelectedFrenchItem(null);
         setEditMode(true);
     }
 
-    function EditCallBack() {
+    function editCallBack() {
         setEditMode(true);
     }
 
-    function ReturnCallback() {
+    function returnCallback() {
         setEditMode(false);
     }
 
     return (
         <div className='main-container'>
-            <EditionBar isEditMode={isEditMode} addCallback={AddCallback} returnCallBack={ReturnCallback}/>
+            <EditionBar isEditMode={isEditMode} addCallback={addCallback} returnCallBack={returnCallback}/>
             {isEditMode
                 ? <FrenchExpressionCreation selectedWord={selectedFrenchItem} showTranslationsMenu={true} linkedArabicExpressionId={null} />
-                : <FrenchExpressionsList selectedItem={selectedFrenchItem} setSelectedItem={setSelectedFrenchItem} editCallback={EditCallBack} />}
+                : <FrenchExpressionsList selectedItem={selectedFrenchItem} setSelectedItem={setSelectedFrenchItem} editCallback={editCallBack} />}
         </div>
     )
 }
