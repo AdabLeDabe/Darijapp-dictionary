@@ -93,8 +93,9 @@ function FrenchExpressionCreation({ selectedWord, showTranslationsMenu, linkedAr
     const saveFormData = async () => {
         if (createdWord == null)
             addWord();
-        else
+        else 
             updateWord();
+        //Return to list
     }
 
     return (
