@@ -23,9 +23,13 @@ function App() {
 
     return (
         <div className='main-container'>
-            <EditionBar isEditMode={isEditMode} addCallback={addCallback} returnCallBack={returnCallback}/>
+            <EditionBar isEditMode={isEditMode} addCallback={addCallback} returnCallBack={returnCallback} />
             {isEditMode
-                ? <FrenchExpressionCreation selectedWord={selectedFrenchItem} showTranslationsMenu={true} linkedArabicExpressionId={null} />
+                ? <FrenchExpressionCreation
+                    selectedWord={selectedFrenchItem}
+                    showTranslationsMenu={true}
+                    linkedArabicExpressionId={null}
+                    returnCallBack={returnCallback} />
                 : <FrenchExpressionsList selectedItem={selectedFrenchItem} setSelectedItem={setSelectedFrenchItem} editCallback={editCallBack} />}
         </div>
     )

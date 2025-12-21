@@ -6,15 +6,23 @@ import ArabicTranslations from './ArabicTranslations';
 interface FrenchExpressionCreationProps {
     selectedWord: French | null,
     linkedArabicExpressionId: number | null,
-    showTranslationsMenu: boolean
+    showTranslationsMenu: boolean,
+    returnCallBack: () => void
 }
 
-function FrenchExpressionCreation({ selectedWord, showTranslationsMenu, linkedArabicExpressionId }: FrenchExpressionCreationProps) {
+function FrenchExpressionCreation({ selectedWord, showTranslationsMenu, linkedArabicExpressionId, returnCallBack }: FrenchExpressionCreationProps) {
     const [createdWord, setCreatedWord] = useState<French | null>(selectedWord);
     const formData = useRef({
         expression: '',
         detail: ''
     });
+
+    useEffect(() => {
+        if (selectedWord != null) {
+            formData.current.expression = selectedWord.expression;
+            formData.current.detail = selectedWord.detail;
+        }
+    }, []);
 
     const updateFormData = (e: React.ChangeEvent<HTMLInputElement>) => {
         formData.current = {
@@ -93,9 +101,9 @@ function FrenchExpressionCreation({ selectedWord, showTranslationsMenu, linkedAr
     const saveFormData = async () => {
         if (createdWord == null)
             addWord();
-        else 
+        else
             updateWord();
-        //Return to list
+        returnCallBack();
     }
 
     return (

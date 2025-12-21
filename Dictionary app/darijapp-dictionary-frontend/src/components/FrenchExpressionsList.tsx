@@ -9,7 +9,7 @@ interface FrenchExpressionsListProps {
     editCallback: () => void
 }
 
-function FrenchExpressionsList({ selectedItem: selectedItem, setSelectedItem: setSelectedItem, editCallback: editCallback }: FrenchExpressionsListProps) {
+function FrenchExpressionsList({ selectedItem, setSelectedItem, editCallback }: FrenchExpressionsListProps) {
     const [frenchExpressions, setFrenchExpressions] = useState<FrenchWithTranslations[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);

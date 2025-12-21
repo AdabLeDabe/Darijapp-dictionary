@@ -4,11 +4,11 @@ interface EditionBarProps {
     returnCallBack: () => void
 }
 
-function EditionBar({isEditMode: isEditMode, addCallback: addCallback, returnCallBack: returnCallback}: EditionBarProps) {
+function EditionBar({isEditMode, addCallback, returnCallBack}: EditionBarProps) {
     return (<>
         <div className="edition-bar-container">
             {isEditMode
-            ? (<button onClick={() => returnCallback()}>Back</button>)
+            ? (<button onClick={() => returnCallBack()}>Back</button>)
             : (<button onClick={() => addCallback()}>Add</button>)}
         </div>
     </>);
