@@ -80,8 +80,21 @@ button:disabled {
     text-align: center;
 }
 
+.expression-table-cell-tool {
+    flex: initial;
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0rem 1rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: fit-content;
+}
+
 .expression-table-arabic-word {
     padding: 0.5rem 1rem;
+    margin: 0.25rem;
     background-color: #735751;
     border-radius: 0.5rem;
     color: white;

@@ -42,11 +42,11 @@ function FrenchExpressionsList({ selectedItem: selectedItem, setSelectedItem: se
 
     return (
         <>
-            <button disabled={selectedItem == null} onClick={() => setEditMode(true)}>Edit</button>
             <div className='expression-table'>
                 <div className='expression-table-header'>
                     <div className='expression-table-cell'>French</div>
                     <div className='expression-table-cell'>Arabic</div>
+                    <div className='expression-table-cell-tool'></div>
                 </div>
                 {frenchExpressions.map((item) => (
                     <div
@@ -60,6 +60,10 @@ function FrenchExpressionsList({ selectedItem: selectedItem, setSelectedItem: se
                                     {arabicItem.expression_arabic} / {arabicItem.expression_phonetic} {GetVariantDisplay(arabicItem.variant)}
                                 </div>
                             ))}
+                        </div>
+                        <div className='expression-table-cell-tool'>
+                            <button disabled={selectedItem?.id != item.id} onClick={() => setEditMode(true)}>Edit</button>
+                            <button disabled={selectedItem?.id != item.id} >Delete</button>
                         </div>
                     </div>
                 ))}
