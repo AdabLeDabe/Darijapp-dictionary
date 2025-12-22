@@ -3,10 +3,12 @@ package api_controller
 import (
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
 
+	"darijapp-dictionary-api/helper"
 	"darijapp-dictionary-api/logger"
 
 	"github.com/gorilla/mux"
@@ -183,6 +185,12 @@ func addFrench(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
+	if helper.IsBlank(french.Expression) {
+		err = errors.New("Expression should not be empty")
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return err
+	}
+
 	query := "INSERT INTO french (expression, detail) VALUES ($1, $2) RETURNING id"
 	err = db.QueryRow(query, french.Expression, french.Detail).Scan(&french.Id)
 	if err != nil {
@@ -203,6 +211,12 @@ func updateFrench(w http.ResponseWriter, r *http.Request) error {
 	var french French
 	err := json.NewDecoder(r.Body).Decode(&french)
 	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return err
+	}
+
+	if helper.IsBlank(french.Expression) {
+		err = errors.New("Expression should not be empty")
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return err
 	}
@@ -333,6 +347,18 @@ func addArabic(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
+	if helper.IsBlank(arabic.ExpressionArabic) {
+		err = errors.New("Arabic expression should not be empty")
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return err
+	}
+
+	if helper.IsBlank(arabic.ExpressionPhonetic) {
+		err = errors.New("Phonetic expression should not be empty")
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return err
+	}
+
 	query := "INSERT INTO arabic (expression_arabic, expression_phonetic, variant) VALUES ($1, $2, $3) RETURNING id"
 	err = db.QueryRow(query, arabic.ExpressionArabic, arabic.ExpressionPhonetic, arabic.Variant).Scan(&arabic.Id)
 	if err != nil {
@@ -353,6 +379,18 @@ func updateArabic(w http.ResponseWriter, r *http.Request) error {
 	var arabic Arabic
 	err := json.NewDecoder(r.Body).Decode(&arabic)
 	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return err
+	}
+
+	if helper.IsBlank(arabic.ExpressionArabic) {
+		err = errors.New("Arabic expression should not be empty")
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return err
+	}
+
+	if helper.IsBlank(arabic.ExpressionPhonetic) {
+		err = errors.New("Phonetic expression should not be empty")
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return err
 	}
