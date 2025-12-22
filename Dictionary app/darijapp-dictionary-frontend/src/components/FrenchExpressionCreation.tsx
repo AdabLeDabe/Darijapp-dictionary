@@ -12,9 +12,12 @@ interface FrenchExpressionCreationProps {
 
 function FrenchExpressionCreation({ selectedWord, showTranslationsMenu, linkedArabicExpressionId, returnCallBack }: FrenchExpressionCreationProps) {
     const [createdWord, setCreatedWord] = useState<French | null>(selectedWord);
+    //const [isDirty, setIsDirty] = useState<boolean>(false);
+    const [isSaveDisabled, setIsSaveDisabled] = useState<boolean>(true);
+    var isDirty = false;
     const formData = useRef({
-        expression: '',
-        detail: ''
+        expression: selectedWord != null ? selectedWord.expression : '',
+        detail: selectedWord != null ? selectedWord.detail : ''
     });
 
     useEffect(() => {
@@ -29,6 +32,8 @@ function FrenchExpressionCreation({ selectedWord, showTranslationsMenu, linkedAr
             ...formData.current,
             [e.target.name]: e.target.value
         }
+        isDirty = true;
+        setIsSaveDisabled(!formData.current.expression || formData.current.expression.trim() === "" || !isDirty);
     };
 
     const addWord = async () => {
@@ -100,9 +105,13 @@ function FrenchExpressionCreation({ selectedWord, showTranslationsMenu, linkedAr
 
     const saveFormData = async () => {
         if (createdWord == null)
-            addWord();
+            await addWord();
         else
-            updateWord();
+            await updateWord();
+    }
+
+    const saveAndReturn = async () => {
+        await saveFormData();
         returnCallBack();
     }
 
@@ -118,7 +127,8 @@ function FrenchExpressionCreation({ selectedWord, showTranslationsMenu, linkedAr
                 <input type="text" name="detail" onChange={updateFormData} defaultValue={selectedWord?.detail}></input>
             </label>
             <br /><br />
-            <button onClick={saveFormData}>Save</button>
+            <button disabled={isSaveDisabled} onClick={saveAndReturn}>Save & return</button>
+            <button disabled={isSaveDisabled} onClick={saveFormData}>Save</button>
             {showTranslationsMenu && (
                 <ArabicTranslations frenchId={createdWord?.id ?? null} />
             )}
