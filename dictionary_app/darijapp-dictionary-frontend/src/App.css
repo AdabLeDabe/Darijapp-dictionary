@@ -33,7 +33,7 @@ button:disabled {
     flex-wrap: wrap;
     gap: 0rem 1rem;
     align-items: left;
-    margin: 1rem;
+    padding: 0.5rem;
 }
 
 .expression-table {
@@ -82,15 +82,8 @@ button:disabled {
 }
 
 .expression-table-cell-tool {
-    flex: initial;
-    padding: 1rem;
     display: flex;
-    flex-wrap: wrap;
-    gap: 0rem 1rem;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: fit-content;
 }
 
 .expression-table-arabic-word {
@@ -130,4 +123,15 @@ input[type='text'] {
 .creation-form-container input {
     text-align: left;
     max-width: 500px;
+}
+
+@media (max-width: 1000px) {
+    .main-container {
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
 }
