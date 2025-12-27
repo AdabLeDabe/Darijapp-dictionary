@@ -7,6 +7,10 @@
     text-align: center;
 }
 
+h2 {
+    text-align: left;
+}
+
 button {
     color: white;
     background-color: #bf4342;
@@ -86,12 +90,16 @@ button:disabled {
     align-items: center;
 }
 
-.expression-table-arabic-word {
+.arabic-word {
     padding: 0.5rem 1rem;
     margin: 0.25rem;
     background-color: #735751;
     border-radius: 0.5rem;
     color: white;
+}
+
+.arabic-word-selected {
+    background-color: #bf4342;
 }
 
 input[type='text'] {
@@ -123,6 +131,25 @@ input[type='text'] {
 .creation-form-container input {
     text-align: left;
     max-width: 500px;
+}
+
+.translation-container {
+    margin: auto;
+    padding: 2rem;
+    width: 80%;
+    border-width: 0.1rem 0 0 0; 
+    border-style: solid;
+    border-image: linear-gradient(to right, #e7d7c100 0%, #3b352cde 50%, #e7d7c100 100%) 1;
+}
+
+.translation-list {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: x-large;
 }
 
 @media (max-width: 1000px) {

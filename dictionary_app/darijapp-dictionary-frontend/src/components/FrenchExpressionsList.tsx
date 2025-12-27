@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import '../App.css'
 import type { FrenchWithTranslations } from '../models/FrenchWithTranslations';
 import { GetVariantDisplay } from '../helpers/ArabicDisplay';
+import ArabicWord from './ArabicWord';
 
 interface FrenchExpressionsListProps {
     selectedItem: FrenchWithTranslations | null,
@@ -82,8 +83,8 @@ function FrenchExpressionsList({ selectedItem, setSelectedItem, editCallback }: 
                         <div className='expression-table-cell'>{item.expression} <i>{item.detail}</i></div>
                         <div className='expression-table-cell'>
                             {item.translations.map((arabicItem) => (
-                                <div key={arabicItem.id} className='expression-table-arabic-word'>
-                                    {arabicItem.expression_arabic} / {arabicItem.expression_phonetic} {GetVariantDisplay(arabicItem.variant)}
+                                <div key={arabicItem.id}>
+                                    <ArabicWord word={arabicItem} isSelected={false} />
                                 </div>
                             ))}
                         </div>
