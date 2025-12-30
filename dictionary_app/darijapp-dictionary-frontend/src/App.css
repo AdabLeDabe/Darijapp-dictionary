@@ -208,7 +208,7 @@ select option:checked {
     flex-wrap: wrap;
     justify-content: center;
     font-size: x-large;
-    max-height: 20rem;
+    max-height: 12rem;
     overflow-y: auto;
     overflow-x: hidden;
 }

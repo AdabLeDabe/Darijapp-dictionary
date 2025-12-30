@@ -6,6 +6,7 @@ import { removeAccents } from "../helpers/SearchHelper";
 function FrenchExpressionSearch() {
     const [frenchExpressions, setFrenchExpressions] = useState<French[]>([]);
     const [filteredFrenchExpressions, setFilteredFrenchExpressions] = useState<French[]>([]);
+    const [selectedFrenchExpressions, setSelectedFrenchExpressions] = useState<French[]>([]);
     const [searchFilter, setSearchFilter] = useState<string>("");
 
     const updateSearchFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,6 +24,21 @@ function FrenchExpressionSearch() {
 
     const isSearchFilterEmpty = () => {
         return (!searchFilter || searchFilter.trim() === "");
+    }
+
+    const toggleSelection = (frenchWord: French) => {
+        setSelectedFrenchExpressions(oldArray => {
+            if (isWordSelected(frenchWord)) {
+                return oldArray.filter(selected => selected.id !== frenchWord.id);
+            }
+            else {
+                return [...oldArray, frenchWord];
+            }
+        });
+    }
+
+    const isWordSelected = (frenchWord: French) => {
+        return selectedFrenchExpressions.some(selected => selected.id === frenchWord.id);
     }
 
     useEffect(() => {
@@ -57,12 +73,26 @@ function FrenchExpressionSearch() {
                 <input name="searchFilter" type='text' onChange={updateSearchFilter}></input>
             </div>
             <div className="sub-container">
-                <h2>Search results:</h2>
+                <h3>Selected words:</h3>
+                <div className="translation-list">
+                    {selectedFrenchExpressions.map(frenchWord => (
+                        <div
+                            key={frenchWord.id}
+                            onClick={() => toggleSelection(frenchWord)}>
+                            <FrenchWord word={frenchWord} isSelected={isWordSelected(frenchWord)} />
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <div className="sub-container">
+                <h3>Search results:</h3>
                 <div className="translation-list">
                     {!isSearchFilterEmpty()
                         && filteredFrenchExpressions.map(frenchWord => (
-                            <div
-                                key={frenchWord.id}>
+                            !isWordSelected(frenchWord)
+                            && <div
+                                key={frenchWord.id}
+                                onClick={() => toggleSelection(frenchWord)}>
                                 <FrenchWord word={frenchWord} isSelected={false} />
                             </div>
                         ))}
