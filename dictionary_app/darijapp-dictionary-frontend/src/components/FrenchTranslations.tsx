@@ -14,7 +14,7 @@ interface FrenchTranslationsProps {
 function FrenchTranslations({ arabicId: arabicId }: FrenchTranslationsProps) {
     const [frenchExpressions, setFrenchExpressions] = useState<French[]>([]);
     const [isTranslationModalOpen, setIsTranslationModalOpen] = useState(false);
-    const [isSearchTranslationModalOpen, setisSearchTranslationModalOpen] = useState(false);
+    const [isSearchTranslationModalOpen, setIsSearchTranslationModalOpen] = useState(false);
     const [selectedTranslation, setSelectedTranslation] = useState<French | null>(null);
 
     useEffect(() => {
@@ -36,7 +36,7 @@ function FrenchTranslations({ arabicId: arabicId }: FrenchTranslationsProps) {
         };
 
         fetchData();
-    }, [arabicId, isTranslationModalOpen])
+    }, [arabicId, isTranslationModalOpen, isSearchTranslationModalOpen])
 
     const openModalToAddTranslation = () => {
         setSelectedTranslation(null);
@@ -45,7 +45,7 @@ function FrenchTranslations({ arabicId: arabicId }: FrenchTranslationsProps) {
 
     const openModalToSearchTranslation = () => {
         setSelectedTranslation(null);
-        setisSearchTranslationModalOpen(true);
+        setIsSearchTranslationModalOpen(true);
     }
 
     const deleteTranslation = async () => {
@@ -104,11 +104,14 @@ function FrenchTranslations({ arabicId: arabicId }: FrenchTranslationsProps) {
                     </DialogPanel>
                 </div>
             </Dialog>
-            <Dialog open={isSearchTranslationModalOpen} onClose={() => setisSearchTranslationModalOpen(false)}>
+            <Dialog open={isSearchTranslationModalOpen} onClose={() => setIsSearchTranslationModalOpen(false)}>
                 <div className="modal-backdrop">
                     <DialogPanel className="modal-content search-modal-content">
                         <DialogTitle>Add existing translation</DialogTitle>
-                        <FrenchExpressionSearch existingTranslations={frenchExpressions}/>
+                        <FrenchExpressionSearch
+                            existingTranslations={frenchExpressions}
+                            linkedArabicExpressionId={arabicId}
+                            returnCallBack={() => setIsSearchTranslationModalOpen(false)} />
                     </DialogPanel>
                 </div>
             </Dialog>

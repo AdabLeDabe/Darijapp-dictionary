@@ -4,10 +4,12 @@ import FrenchWord from "./FrenchWord";
 import { removeAccents } from "../helpers/SearchHelper";
 
 interface FrenchExpressionSearchProps {
-    existingTranslations: French[]
+    existingTranslations: French[],
+    linkedArabicExpressionId: number | null,
+    returnCallBack: () => void
 }
 
-function FrenchExpressionSearch({ existingTranslations }: FrenchExpressionSearchProps) {
+function FrenchExpressionSearch({ existingTranslations, linkedArabicExpressionId, returnCallBack }: FrenchExpressionSearchProps) {
     const [frenchExpressions, setFrenchExpressions] = useState<French[]>([]);
     const [filteredFrenchExpressions, setFilteredFrenchExpressions] = useState<French[]>([]);
     const [selectedFrenchExpressions, setSelectedFrenchExpressions] = useState<French[]>([]);
@@ -47,6 +49,19 @@ function FrenchExpressionSearch({ existingTranslations }: FrenchExpressionSearch
         return selectedFrenchExpressions.some(selected => selected.id === frenchWord.id);
     }
 
+    const OnSaveAndReturn = async () => {
+        if (linkedArabicExpressionId == null) {
+            console.log("so the arabic id that is never supposed to be null is null somehow, no translations will be made");
+        }
+        else {
+            await selectedFrenchExpressions.forEach(async item => {
+                await addTranslation(item.id);
+            });
+        }
+
+        returnCallBack();
+    }
+
     useEffect(() => {
         fetchData();
     }, []);
@@ -71,6 +86,30 @@ function FrenchExpressionSearch({ existingTranslations }: FrenchExpressionSearch
             console.log('Failure: ', err);
         }
     };
+
+    const addTranslation = async (frenchWordId: number) => {
+        try {
+            console.log("french id: " + frenchWordId + " arabic id: " + linkedArabicExpressionId)
+            const response = await fetch('/api/translations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    french_id: frenchWordId,
+                    arabic_id: linkedArabicExpressionId
+                })
+            });
+
+            if (!response.ok)
+                throw new Error('Failed to add translation');
+
+            const result = await response.json();
+            console.log('Success: ', result);
+        } catch (error) {
+            console.log('Error: ', error)
+        }
+    }
 
     return (
         <>
@@ -104,6 +143,7 @@ function FrenchExpressionSearch({ existingTranslations }: FrenchExpressionSearch
                         ))}
                 </div>
             </div>
+            <button onClick={OnSaveAndReturn}>Save and return</button>
         </>
     );
 }
