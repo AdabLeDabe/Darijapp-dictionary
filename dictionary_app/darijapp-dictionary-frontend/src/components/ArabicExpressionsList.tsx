@@ -7,17 +7,23 @@ import FrenchWord from './FrenchWord';
 interface ArabicExpressionsListProps {
     selectedItem: ArabicWithTranslations | null,
     setSelectedItem: (newSelectedItem: ArabicWithTranslations | null) => void,
-    editCallback: () => void
+    editCallback: () => void,
+    filter: string
 }
 
-function ArabicExpressionsList({ selectedItem, setSelectedItem, editCallback }: ArabicExpressionsListProps) {
+function ArabicExpressionsList({ selectedItem, setSelectedItem, editCallback, filter }: ArabicExpressionsListProps) {
     const [arabicExpressions, setArabicExpressions] = useState<ArabicWithTranslations[]>([]);
+    const [filteredArabicExpressions, setFilteredArabicExpressions] = useState<ArabicWithTranslations[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         fetchData();
     }, []);
+
+    useEffect(() => {
+        updateFilter();
+    }, [filter]);
 
     const fetchData = async () => {
         try {
@@ -29,6 +35,7 @@ function ArabicExpressionsList({ selectedItem, setSelectedItem, editCallback }: 
 
             const result = await response.json();
             setArabicExpressions(result);
+            setFilteredArabicExpressions(result);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An error occurred');
         } finally {
@@ -62,6 +69,27 @@ function ArabicExpressionsList({ selectedItem, setSelectedItem, editCallback }: 
         }
     }
 
+    const updateFilter = () => {
+        if (!filter || filter.trim() === "") {
+            setFilteredArabicExpressions(arabicExpressions);
+        }
+        else {
+            setFilteredArabicExpressions(arabicExpressions.filter(item => filterStringsFlexibleSchwa(item.expression_phonetic)));
+        }
+    }
+
+    function normalizeForSearch(str: string): string {
+        let norm = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        norm = norm.replace(/ɛ/g, "3");
+        return norm;
+    }
+
+    function filterStringsFlexibleSchwa(item: string): boolean {
+        const normKeywordE = normalizeForSearch(item.replace(/ə/g, "e"));
+        const normKeywordA = normalizeForSearch(item.replace(/ə/g, "a"));
+        return normKeywordE.toLowerCase().includes(filter.toLowerCase()) || normKeywordA.toLowerCase().includes(filter.toLowerCase());
+    }
+
     if (loading)
         return <div>Loading...</div>;
     if (error)
@@ -75,7 +103,7 @@ function ArabicExpressionsList({ selectedItem, setSelectedItem, editCallback }: 
                     <div className='expression-table-cell'>French</div>
                     <div className='expression-table-cell-tool'></div>
                 </div>
-                {arabicExpressions.map((item) => (
+                {filteredArabicExpressions.map((item) => (
                     <div
                         key={item.id}
                         className={(selectedItem?.id === item.id ? 'expression-table-row-selected' : 'expression-table-row')}

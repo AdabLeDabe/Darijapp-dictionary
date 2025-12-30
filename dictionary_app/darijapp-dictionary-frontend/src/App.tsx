@@ -1,6 +1,6 @@
 import FrenchExpressionCreation from './components/FrenchExpressionCreation';
 import FrenchExpressionsList from './components/FrenchExpressionsList';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import type { FrenchWithTranslations } from './models/FrenchWithTranslations';
 import EditionBar from './components/EditionBar';
 import ArabicExpressionCreation from './components/ArabicExpressionCreation';
@@ -78,7 +78,8 @@ function App() {
                     : <ArabicExpressionsList
                         selectedItem={selectedArabicItem}
                         setSelectedItem={setSelectedArabicItem}
-                        editCallback={editCallBack} />}
+                        editCallback={editCallBack}
+                        filter={searchFilter} />}
         </div>
     )
 }
