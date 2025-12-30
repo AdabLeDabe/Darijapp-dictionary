@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import '../App.css'
 import type { FrenchWithTranslations } from '../models/FrenchWithTranslations';
 import ArabicWord from './ArabicWord';
+import { removeAccents } from '../helpers/SearchHelper';
 
 interface FrenchExpressionsListProps {
     selectedItem: FrenchWithTranslations | null,
@@ -47,7 +48,7 @@ function FrenchExpressionsList({ selectedItem, setSelectedItem, editCallback, fi
             setFilteredFrenchExpressions(frenchExpressions);
         }
         else {
-            setFilteredFrenchExpressions(frenchExpressions.filter(item => item.expression.toLowerCase().includes(filter.toLowerCase())))
+            setFilteredFrenchExpressions(frenchExpressions.filter(item => removeAccents(item.expression).toLowerCase().includes(removeAccents(filter).toLowerCase())))
         }
     }
 

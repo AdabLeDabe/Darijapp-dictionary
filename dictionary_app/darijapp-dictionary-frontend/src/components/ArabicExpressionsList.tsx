@@ -3,6 +3,7 @@ import '../App.css'
 import type { ArabicWithTranslations } from '../models/ArabicWithTranslations';
 import { GetVariantDisplay } from '../helpers/ArabicDisplay';
 import FrenchWord from './FrenchWord';
+import { removeAccents } from '../helpers/SearchHelper';
 
 interface ArabicExpressionsListProps {
     selectedItem: ArabicWithTranslations | null,
@@ -78,16 +79,12 @@ function ArabicExpressionsList({ selectedItem, setSelectedItem, editCallback, fi
         }
     }
 
-    function normalizeForSearch(str: string): string {
-        let norm = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-        norm = norm.replace(/ɛ/g, "3");
-        return norm;
-    }
-
     function filterStringsFlexibleSchwa(item: string): boolean {
-        const normKeywordE = normalizeForSearch(item.replace(/ə/g, "e"));
-        const normKeywordA = normalizeForSearch(item.replace(/ə/g, "a"));
-        return normKeywordE.toLowerCase().includes(filter.toLowerCase()) || normKeywordA.toLowerCase().includes(filter.toLowerCase());
+        const sanitizedFilter = removeAccents(filter);
+        const sanitizedItem = item.replace(/ɛ/g, "3");
+        const normKeywordE = removeAccents(sanitizedItem.replace(/ə/g, "e"));
+        const normKeywordA = removeAccents(sanitizedItem.replace(/ə/g, "a"));
+        return normKeywordE.toLowerCase().includes(sanitizedFilter.toLowerCase()) || normKeywordA.toLowerCase().includes(sanitizedFilter.toLowerCase());
     }
 
     if (loading)
