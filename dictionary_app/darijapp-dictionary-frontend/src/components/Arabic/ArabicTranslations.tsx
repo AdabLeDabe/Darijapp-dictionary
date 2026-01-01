@@ -5,6 +5,7 @@ import ArabicExpressionCreation from "./ArabicExpressionCreation";
 import '../../App.css'
 import '../../Modal.css'
 import ArabicWord from "./ArabicWord";
+import ArabicExpressionSearch from "./ArabicExpressionSearch";
 
 interface ArabicTranslationsProps {
     frenchId: number | null
@@ -13,6 +14,7 @@ interface ArabicTranslationsProps {
 function ArabicTranslations({ frenchId }: ArabicTranslationsProps) {
     const [arabicExpressions, setArabicExpressions] = useState<Arabic[]>([]);
     const [isTranslationModalOpen, setIsTranslationModalOpen] = useState(false);
+    const [isSearchTranslationModalOpen, setIsSearchTranslationModalOpen] = useState(false);
     const [selectedTranslation, setSelectedTranslation] = useState<Arabic | null>(null);
 
     useEffect(() => {
@@ -34,12 +36,17 @@ function ArabicTranslations({ frenchId }: ArabicTranslationsProps) {
         };
 
         fetchData();
-    }, [frenchId, isTranslationModalOpen])
+    }, [frenchId, isTranslationModalOpen, isSearchTranslationModalOpen])
 
     const openModalToAddTranslation = () => {
         setSelectedTranslation(null);
         setIsTranslationModalOpen(true);
     };
+
+    const openModalToSearchTranslation = () => {
+        setSelectedTranslation(null);
+        setIsSearchTranslationModalOpen(true);
+    }
 
     const deleteTranslation = async () => {
         try {
@@ -81,7 +88,7 @@ function ArabicTranslations({ frenchId }: ArabicTranslationsProps) {
                 ))}
             </div>
             <button disabled={frenchId == null} onClick={() => openModalToAddTranslation()}>Add translation</button>
-            <button disabled={frenchId == null}>Add existing translation</button>
+            <button disabled={frenchId == null} onClick={() => openModalToSearchTranslation()}>Add existing translation</button>
             <button disabled={frenchId == null || selectedTranslation == null} onClick={() => setIsTranslationModalOpen(true)}>Modify translation</button>
             <button disabled={frenchId == null || selectedTranslation == null} onClick={() => deleteTranslation()}>Delete translation</button>
 
@@ -94,6 +101,17 @@ function ArabicTranslations({ frenchId }: ArabicTranslationsProps) {
                             linkedFrenchExpressionId={frenchId}
                             showTranslationsMenu={false}
                             returnCallBack={() => setIsTranslationModalOpen(false)} />
+                    </DialogPanel>
+                </div>
+            </Dialog>
+            <Dialog open={isSearchTranslationModalOpen} onClose={() => setIsSearchTranslationModalOpen(false)}>
+                <div className="modal-backdrop">
+                    <DialogPanel className="modal-content search-modal-content">
+                        <DialogTitle>Add existing translation</DialogTitle>
+                        <ArabicExpressionSearch
+                            existingTranslations={arabicExpressions}
+                            linkedFrenchExpressionId={frenchId}
+                            returnCallBack={() => setIsSearchTranslationModalOpen(false)} />
                     </DialogPanel>
                 </div>
             </Dialog>

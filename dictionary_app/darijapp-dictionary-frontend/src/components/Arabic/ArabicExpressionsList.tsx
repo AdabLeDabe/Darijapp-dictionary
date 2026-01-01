@@ -3,7 +3,7 @@ import '../../App.css'
 import type { ArabicWithTranslations } from '../../models/ArabicWithTranslations';
 import { GetVariantDisplay } from '../../helpers/ArabicDisplay';
 import FrenchWord from '../French/FrenchWord';
-import { removeAccents } from '../../helpers/SearchHelper';
+import { filterStringsFlexibleSchwa, removeAccents } from '../../helpers/SearchHelper';
 
 interface ArabicExpressionsListProps {
     selectedItem: ArabicWithTranslations | null,
@@ -75,16 +75,8 @@ function ArabicExpressionsList({ selectedItem, setSelectedItem, editCallback, fi
             setFilteredArabicExpressions(arabicExpressions);
         }
         else {
-            setFilteredArabicExpressions(arabicExpressions.filter(item => filterStringsFlexibleSchwa(item.expression_phonetic)));
+            setFilteredArabicExpressions(arabicExpressions.filter(item => filterStringsFlexibleSchwa(item.expression_phonetic, filter)));
         }
-    }
-
-    function filterStringsFlexibleSchwa(item: string): boolean {
-        const sanitizedFilter = removeAccents(filter);
-        const sanitizedItem = item.replace(/ɛ/g, "3");
-        const normKeywordE = removeAccents(sanitizedItem.replace(/ə/g, "e"));
-        const normKeywordA = removeAccents(sanitizedItem.replace(/ə/g, "a"));
-        return normKeywordE.toLowerCase().includes(sanitizedFilter.toLowerCase()) || normKeywordA.toLowerCase().includes(sanitizedFilter.toLowerCase());
     }
 
     if (loading)
