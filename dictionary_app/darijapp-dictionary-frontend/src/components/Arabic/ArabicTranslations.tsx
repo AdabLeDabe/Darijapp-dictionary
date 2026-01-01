@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import type { Arabic } from "../models/Arabic";
+import type { Arabic } from "../../models/Arabic";
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import ArabicExpressionCreation from "./ArabicExpressionCreation";
-import '../App.css'
-import '../Modal.css'
+import '../../App.css'
+import '../../Modal.css'
 import ArabicWord from "./ArabicWord";
 
 interface ArabicTranslationsProps {

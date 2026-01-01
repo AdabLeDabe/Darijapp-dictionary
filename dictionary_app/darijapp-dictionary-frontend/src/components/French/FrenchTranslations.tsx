@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import type { French } from "../models/French";
+import type { French } from "../../models/French";
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import FrenchExpressionCreation from "./FrenchExpressionCreation";
-import '../App.css'
-import '../Modal.css'
+import '../../App.css'
+import '../../Modal.css'
 import FrenchWord from "./FrenchWord";
 import FrenchExpressionSearch from "./FrenchExpressionSearch";
 

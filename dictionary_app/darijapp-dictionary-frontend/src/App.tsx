@@ -1,10 +1,10 @@
-import FrenchExpressionCreation from './components/FrenchExpressionCreation';
-import FrenchExpressionsList from './components/FrenchExpressionsList';
+import FrenchExpressionCreation from './components/French/FrenchExpressionCreation';
+import FrenchExpressionsList from './components/French/FrenchExpressionsList';
 import { useState } from 'react';
 import type { FrenchWithTranslations } from './models/FrenchWithTranslations';
 import EditionBar from './components/EditionBar';
-import ArabicExpressionCreation from './components/ArabicExpressionCreation';
-import ArabicExpressionsList from './components/ArabicExpressionsList';
+import ArabicExpressionCreation from './components/Arabic/ArabicExpressionCreation';
+import ArabicExpressionsList from './components/Arabic/ArabicExpressionsList';
 import type { ArabicWithTranslations } from './models/ArabicWithTranslations';
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
     const [selectedArabicItem, setSelectedArabicItem] = useState<ArabicWithTranslations | null>(null);
     const [searchFilter, setSearchFilter] = useState<string>("");
 
-    const updateFormData = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updateSearchFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchFilter(e.target.value);
     };
 
@@ -56,7 +56,7 @@ function App() {
                     </div>
                     <div className='form-container'>
                         <label htmlFor='searchFilter'>Search:</label>
-                        <input name="searchFilter" type='text' onChange={updateFormData}></input>
+                        <input name="searchFilter" type='text' onChange={updateSearchFilter}></input>
                     </div>
                 </>
                 : <></>}

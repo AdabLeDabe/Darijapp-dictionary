@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import '../App.css'
-import type { French } from '../models/French';
-import ArabicTranslations from './ArabicTranslations';
+import '../../App.css'
+import type { French } from '../../models/French';
+import ArabicTranslations from '../Arabic/ArabicTranslations';
 
 interface FrenchExpressionCreationProps {
     selectedWord: French | null,

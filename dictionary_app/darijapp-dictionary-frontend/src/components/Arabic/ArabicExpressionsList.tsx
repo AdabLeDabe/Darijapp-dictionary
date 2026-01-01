@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import '../App.css'
-import type { ArabicWithTranslations } from '../models/ArabicWithTranslations';
-import { GetVariantDisplay } from '../helpers/ArabicDisplay';
-import FrenchWord from './FrenchWord';
-import { removeAccents } from '../helpers/SearchHelper';
+import '../../App.css'
+import type { ArabicWithTranslations } from '../../models/ArabicWithTranslations';
+import { GetVariantDisplay } from '../../helpers/ArabicDisplay';
+import FrenchWord from '../French/FrenchWord';
+import { removeAccents } from '../../helpers/SearchHelper';
 
 interface ArabicExpressionsListProps {
     selectedItem: ArabicWithTranslations | null,

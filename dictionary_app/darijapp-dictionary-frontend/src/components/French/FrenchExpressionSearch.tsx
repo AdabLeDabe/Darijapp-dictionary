@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import type { French } from "../models/French";
+import type { French } from "../../models/French";
 import FrenchWord from "./FrenchWord";
-import { removeAccents } from "../helpers/SearchHelper";
+import { removeAccents } from "../../helpers/SearchHelper";
 
 interface FrenchExpressionSearchProps {
     existingTranslations: French[],

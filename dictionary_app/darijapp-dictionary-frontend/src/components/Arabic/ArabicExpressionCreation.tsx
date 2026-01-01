@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import '../App.css'
-import type { Arabic } from '../models/Arabic';
-import FrenchTranslations from './FrenchTranslations';
-import { GetVariantDisplay } from '../helpers/ArabicDisplay';
+import '../../App.css'
+import type { Arabic } from '../../models/Arabic';
+import FrenchTranslations from '../French/FrenchTranslations';
+import { GetVariantDisplay } from '../../helpers/ArabicDisplay';
 
 interface ArabicExpressionCreationProps {
     selectedWord: Arabic | null,

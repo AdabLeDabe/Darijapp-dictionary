@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import '../App.css'
-import type { FrenchWithTranslations } from '../models/FrenchWithTranslations';
-import ArabicWord from './ArabicWord';
-import { removeAccents } from '../helpers/SearchHelper';
+import '../../App.css'
+import type { FrenchWithTranslations } from '../../models/FrenchWithTranslations';
+import ArabicWord from '../Arabic/ArabicWord';
+import { removeAccents } from '../../helpers/SearchHelper';
 
 interface FrenchExpressionsListProps {
     selectedItem: FrenchWithTranslations | null,

@@ -1,4 +1,4 @@
-import type { French } from "../models/French";
+import type { French } from "../../models/French";
 
 interface FrenchWordProps {
     word: French,
@@ -17,7 +17,7 @@ function FrenchWord({word: frenchWord, isSelected} : FrenchWordProps) {
 
     return (
         <div className={getClassName()}>
-            {frenchWord.expression} - <i>{frenchWord.detail}</i>
+            {frenchWord.expression} {frenchWord.detail && frenchWord.detail.trim() !== "" && <i> - {frenchWord.detail}</i>}
         </div>
     );
 }

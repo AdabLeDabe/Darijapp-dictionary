@@ -1,5 +1,5 @@
-import { GetVariantDisplay } from "../helpers/ArabicDisplay";
-import type { Arabic } from "../models/Arabic";
+import { GetVariantDisplay } from "../../helpers/ArabicDisplay";
+import type { Arabic } from "../../models/Arabic";
 
 interface ArabicWordProps {
     word: Arabic,
