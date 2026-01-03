@@ -1,0 +1,16 @@
+meta {
+  name: Add category to french word
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:8080/expressions/french/1/categories/3
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

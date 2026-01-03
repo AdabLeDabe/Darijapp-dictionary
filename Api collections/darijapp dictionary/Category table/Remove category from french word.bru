@@ -1,0 +1,16 @@
+meta {
+  name: Remove category from french word
+  type: http
+  seq: 8
+}
+
+delete {
+  url: http://localhost:8080/expressions/french/1/categories/3
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

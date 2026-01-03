@@ -55,6 +55,12 @@ type Category struct {
 	CategoryName string `db:"category_name" json:"category_name"`
 }
 
+type FrenchCategory struct {
+	Id         int `db:"id" json:"id"`
+	FrenchId   int `db:"french_id" json:"french_id"`
+	CategoryId int `db:"category_id" json:"category_id"`
+}
+
 var db *sqlx.DB
 
 func SetDB(dbToSet *sql.DB) {
@@ -91,6 +97,10 @@ func IntializeRouter() *mux.Router {
 	HandleFuncWithLogs(router, "/categories", addCategory).Methods("POST")
 	HandleFuncWithLogs(router, "/categories/{id}", updateCategory).Methods("PUT")
 	HandleFuncWithLogs(router, "/categories/{id}", deleteCategory).Methods("DELETE")
+
+	HandleFuncWithLogs(router, "/expressions/french/{id}/categories", getFrenchExpressionCategories).Methods("GET")
+	HandleFuncWithLogs(router, "/expressions/french/{french_id}/categories/{category_id}", addFrenchCategory).Methods("POST")
+	HandleFuncWithLogs(router, "/expressions/french/{french_id}/categories/{category_id}", deleteFrenchCategoryFromIds).Methods("DELETE")
 
 	return router
 }
@@ -693,6 +703,72 @@ func deleteCategory(w http.ResponseWriter, r *http.Request) error {
 	id := vars["id"]
 
 	result, err := db.Exec("DELETE FROM category WHERE id = $1", id)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return err
+	}
+
+	rowsAffected, _ := result.RowsAffected()
+	if rowsAffected == 0 {
+		http.Error(w, "Item not found", http.StatusNotFound)
+		return err
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+	return nil
+}
+
+// FRENCH CATEGORIES ASSSOCIATION TABLE
+
+func getFrenchExpressionCategories(w http.ResponseWriter, r *http.Request) error {
+	arguments := mux.Vars(r)
+	id := arguments["id"]
+
+	categoryItems := []Category{}
+	err := db.Select(&categoryItems, "SELECT c.* FROM french_category fc JOIN category c ON fc.category_id = c.id WHERE fc.french_id = $1;", id)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			http.Error(w, "Item not found", http.StatusNotFound)
+			return err
+		}
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return err
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(categoryItems)
+	return nil
+}
+
+func addFrenchCategory(w http.ResponseWriter, r *http.Request) error {
+	var frenchCategory FrenchCategory
+	arguments := mux.Vars(r)
+	frenchId := arguments["french_id"]
+	categoryId := arguments["category_id"]
+
+	query := "INSERT INTO french_category (french_id, category_id) VALUES ($1, $2) RETURNING id"
+	err := db.QueryRow(query, frenchId, categoryId).Scan(&frenchCategory.Id)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return err
+	}
+
+	// Kinda useless but its for consistency
+	frenchCategory.FrenchId, _ = strconv.Atoi(frenchId)
+	frenchCategory.CategoryId, _ = strconv.Atoi(categoryId)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(frenchCategory)
+	return nil
+}
+
+func deleteFrenchCategoryFromIds(w http.ResponseWriter, r *http.Request) error {
+	arguments := mux.Vars(r)
+	frenchId := arguments["french_id"]
+	categoryId := arguments["category_id"]
+
+	result, err := db.Exec("DELETE FROM french_category WHERE french_id = $1 AND category_id = $2", frenchId, categoryId)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return err

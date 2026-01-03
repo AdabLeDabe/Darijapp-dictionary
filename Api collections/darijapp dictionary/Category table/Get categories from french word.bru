@@ -1,0 +1,16 @@
+meta {
+  name: Get categories from french word
+  type: http
+  seq: 6
+}
+
+get {
+  url: http://localhost:8080/expressions/french/1/categories
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
