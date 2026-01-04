@@ -90,7 +90,6 @@ function FrenchExpressionSearch({ existingTranslations, linkedArabicExpressionId
 
     const addTranslation = async (frenchWordId: number) => {
         try {
-            console.log("french id: " + frenchWordId + " arabic id: " + linkedArabicExpressionId)
             const response = await fetch('/api/translations', {
                 method: 'POST',
                 headers: {
