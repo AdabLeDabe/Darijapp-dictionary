@@ -3,23 +3,13 @@ import type { Arabic } from "../../models/Arabic";
 
 interface ArabicWordProps {
     word: Arabic,
-    isSelected: boolean
 }
 
-function ArabicWord({word: arabicWord, isSelected} : ArabicWordProps) {
-    const getClassName = () => {
-        if (isSelected) {
-            return "word word-selected";
-        }
-        else {
-            return "word"
-        }
-    }
-
+function ArabicWord({ word: arabicWord }: ArabicWordProps) {
     return (
-        <div className={getClassName()}>
+        <>
             {arabicWord.expression_arabic} / {arabicWord.expression_phonetic} {GetVariantDisplay(arabicWord.variant)}
-        </div>
+        </>
     );
 }
 

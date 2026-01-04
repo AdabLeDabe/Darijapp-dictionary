@@ -1,24 +1,14 @@
 import type { French } from "../../models/French";
 
 interface FrenchWordProps {
-    word: French,
-    isSelected: boolean
+    word: French
 }
 
-function FrenchWord({word: frenchWord, isSelected} : FrenchWordProps) {
-    const getClassName = () => {
-        if (isSelected) {
-            return "word word-selected";
-        }
-        else {
-            return "word"
-        }
-    }
-
+function FrenchWord({ word: frenchWord }: FrenchWordProps) {
     return (
-        <div className={getClassName()}>
+        <>
             {frenchWord.expression} {frenchWord.detail && frenchWord.detail.trim() !== "" && <i> - {frenchWord.detail}</i>}
-        </div>
+        </>
     );
 }
 

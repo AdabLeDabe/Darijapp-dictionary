@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { filterStringsFlexibleSchwa } from "../../helpers/SearchHelper";
 import type { Arabic } from "../../models/Arabic";
 import ArabicWord from "./ArabicWord";
+import WordDisplay from "../WordDisplay";
 
 interface ArabicExpressionSearchProps {
     existingTranslations: Arabic[],
@@ -124,7 +125,9 @@ function ArabicExpressionSearch({ existingTranslations, linkedFrenchExpressionId
                         <div
                             key={arabicWord.id}
                             onClick={() => toggleSelection(arabicWord)}>
-                            <ArabicWord word={arabicWord} isSelected={isWordSelected(arabicWord)} />
+                            <WordDisplay isSelected={isWordSelected(arabicWord)}>
+                                <ArabicWord word={arabicWord} />
+                            </WordDisplay>
                         </div>
                     ))}
                 </div>
@@ -138,7 +141,9 @@ function ArabicExpressionSearch({ existingTranslations, linkedFrenchExpressionId
                             && <div
                                 key={arabicWord.id}
                                 onClick={() => toggleSelection(arabicWord)}>
-                                <ArabicWord word={arabicWord} isSelected={false} />
+                                <WordDisplay isSelected={false}>
+                                    <ArabicWord word={arabicWord} />
+                                </WordDisplay>
                             </div>
                         ))}
                 </div>

@@ -3,6 +3,7 @@ import '../../App.css'
 import type { FrenchWithTranslations } from '../../models/FrenchWithTranslations';
 import ArabicWord from '../Arabic/ArabicWord';
 import { removeAccents } from '../../helpers/SearchHelper';
+import WordDisplay from '../WordDisplay';
 
 interface FrenchExpressionsListProps {
     selectedItem: FrenchWithTranslations | null,
@@ -100,7 +101,9 @@ function FrenchExpressionsList({ selectedItem, setSelectedItem, editCallback, fi
                         <div className='expression-table-cell'>
                             {item.translations.map((arabicItem) => (
                                 <div key={arabicItem.id}>
-                                    <ArabicWord word={arabicItem} isSelected={false} />
+                                    <WordDisplay isSelected={false}>
+                                        <ArabicWord word={arabicItem} />
+                                    </WordDisplay>
                                 </div>
                             ))}
                         </div>

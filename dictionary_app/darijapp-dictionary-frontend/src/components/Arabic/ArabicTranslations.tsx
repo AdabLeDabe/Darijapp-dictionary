@@ -6,6 +6,7 @@ import '../../App.css'
 import '../../Modal.css'
 import ArabicWord from "./ArabicWord";
 import ArabicExpressionSearch from "./ArabicExpressionSearch";
+import WordDisplay from "../WordDisplay";
 
 interface ArabicTranslationsProps {
     frenchId: number | null
@@ -83,7 +84,10 @@ function ArabicTranslations({ frenchId }: ArabicTranslationsProps) {
                     <div
                         key={arabicWord.id}
                         onClick={() => setSelectedTranslation(arabicWord)} >
-                        <ArabicWord word={arabicWord} isSelected={selectedTranslation?.id === arabicWord.id} />
+                        <WordDisplay isSelected={selectedTranslation?.id === arabicWord.id}>
+                            <ArabicWord word={arabicWord} />
+                        </WordDisplay>
+
                     </div>
                 ))}
             </div>

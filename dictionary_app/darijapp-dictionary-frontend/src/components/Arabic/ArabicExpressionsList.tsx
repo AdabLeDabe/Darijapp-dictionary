@@ -4,6 +4,7 @@ import type { ArabicWithTranslations } from '../../models/ArabicWithTranslations
 import { GetVariantDisplay } from '../../helpers/ArabicDisplay';
 import FrenchWord from '../French/FrenchWord';
 import { filterStringsFlexibleSchwa, removeAccents } from '../../helpers/SearchHelper';
+import WordDisplay from '../WordDisplay';
 
 interface ArabicExpressionsListProps {
     selectedItem: ArabicWithTranslations | null,
@@ -103,7 +104,9 @@ function ArabicExpressionsList({ selectedItem, setSelectedItem, editCallback, fi
                         <div className='expression-table-cell'>
                             {item.translations.map((frenchItem) => (
                                 <div key={frenchItem.id}>
-                                    <FrenchWord word={frenchItem} isSelected={false} />
+                                    <WordDisplay isSelected={false}>
+                                        <FrenchWord word={frenchItem} />
+                                    </WordDisplay>
                                 </div>
                             ))}
                         </div>

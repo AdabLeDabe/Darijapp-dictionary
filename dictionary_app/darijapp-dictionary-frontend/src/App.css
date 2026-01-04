@@ -213,6 +213,19 @@ select option:checked {
     overflow-x: hidden;
 }
 
+.category-list {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: x-large;
+    max-height: 12rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 @media (max-width: 1000px) {
     .main-container {
         margin-left: auto;

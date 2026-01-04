@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { French } from "../../models/French";
 import FrenchWord from "./FrenchWord";
 import { removeAccents } from "../../helpers/SearchHelper";
+import WordDisplay from "../WordDisplay";
 
 interface FrenchExpressionSearchProps {
     existingTranslations: French[],
@@ -124,7 +125,9 @@ function FrenchExpressionSearch({ existingTranslations, linkedArabicExpressionId
                         <div
                             key={frenchWord.id}
                             onClick={() => toggleSelection(frenchWord)}>
-                            <FrenchWord word={frenchWord} isSelected={isWordSelected(frenchWord)} />
+                            <WordDisplay isSelected={isWordSelected(frenchWord)}>
+                                <FrenchWord word={frenchWord} />
+                            </WordDisplay>
                         </div>
                     ))}
                 </div>
@@ -138,7 +141,10 @@ function FrenchExpressionSearch({ existingTranslations, linkedArabicExpressionId
                             && <div
                                 key={frenchWord.id}
                                 onClick={() => toggleSelection(frenchWord)}>
-                                <FrenchWord word={frenchWord} isSelected={false} />
+                                <WordDisplay isSelected={false}>
+                                    <FrenchWord word={frenchWord} />
+                                </WordDisplay>
+
                             </div>
                         ))}
                 </div>

@@ -6,6 +6,7 @@ import '../../App.css'
 import '../../Modal.css'
 import FrenchWord from "./FrenchWord";
 import FrenchExpressionSearch from "./FrenchExpressionSearch";
+import WordDisplay from "../WordDisplay";
 
 interface FrenchTranslationsProps {
     arabicId: number | null
@@ -83,7 +84,10 @@ function FrenchTranslations({ arabicId: arabicId }: FrenchTranslationsProps) {
                     <div
                         key={frenchWord.id}
                         onClick={() => setSelectedTranslation(frenchWord)}>
-                        <FrenchWord word={frenchWord} isSelected={selectedTranslation?.id === frenchWord.id} />
+                        <WordDisplay isSelected={selectedTranslation?.id === frenchWord.id}>
+                            <FrenchWord word={frenchWord} />
+                        </WordDisplay>
+
                     </div>
                 ))}
             </div>

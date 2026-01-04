@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import '../../App.css'
 import type { French } from '../../models/French';
 import ArabicTranslations from '../Arabic/ArabicTranslations';
+import FrenchCategories from './FrenchCategories';
 
 interface FrenchExpressionCreationProps {
     selectedWord: French | null,
@@ -123,7 +124,10 @@ function FrenchExpressionCreation({ selectedWord, showTranslationsMenu, linkedAr
                 <input type="text" name="detail" onChange={updateFormData} defaultValue={selectedWord?.detail}></input>
             </div>
             {showTranslationsMenu && (
-                <ArabicTranslations frenchId={createdWord?.id ?? null} />
+                <>
+                    <ArabicTranslations frenchId={createdWord?.id ?? null} />
+                    <FrenchCategories frenchId={createdWord?.id ?? null}/>
+                </>
             )}
             <button disabled={isSaveDisabled} onClick={saveAndReturn}>Save & return</button>
             <button disabled={isSaveDisabled} onClick={saveFormData}>Save</button>
