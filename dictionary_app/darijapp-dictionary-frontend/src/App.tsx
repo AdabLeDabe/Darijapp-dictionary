@@ -9,7 +9,7 @@ import type { ArabicWithTranslations } from './models/ArabicWithTranslations';
 
 function App() {
     const [isEditMode, setEditMode] = useState(false);
-    const [isInFrenchMode, setFrenchMode] = useState(true);
+    const [currentMode, setCurrentMode] = useState<number>(0);
     const [selectedFrenchItem, setSelectedFrenchItem] = useState<FrenchWithTranslations | null>(null);
     const [selectedArabicItem, setSelectedArabicItem] = useState<ArabicWithTranslations | null>(null);
     const [searchFilter, setSearchFilter] = useState<string>("");
@@ -32,27 +32,64 @@ function App() {
         setEditMode(false);
     }
 
-    function getFrenchToggleClassName() {
-        return isInFrenchMode ? "toggle-language-button toggle-language-button-selected" : "toggle-language-button";
+    function getToggleButtonClassName(button: number) {
+        return button == currentMode ? "toggle-language-button toggle-language-button-selected" : "toggle-language-button";
     }
 
-    function getArabicToggleClassName() {
-        return !isInFrenchMode ? "toggle-language-button toggle-language-button-selected" : "toggle-language-button";
-    }
-
-    function toggleLanguage() {
+    function toggleMode(mode: number) {
         setSelectedFrenchItem(null);
         setSelectedArabicItem(null);
-        setFrenchMode(!isInFrenchMode);
+        setCurrentMode(mode);
+    }
+
+    function getModeRender() {
+        switch (currentMode) {
+            case 0:
+                return (
+                    <>
+                        {isEditMode
+                            ? <FrenchExpressionCreation
+                                selectedWord={selectedFrenchItem}
+                                showTranslationsMenu={true}
+                                linkedArabicExpressionId={null}
+                                returnCallBack={returnCallback} />
+                            : <FrenchExpressionsList
+                                selectedItem={selectedFrenchItem}
+                                setSelectedItem={setSelectedFrenchItem}
+                                editCallback={editCallBack}
+                                filter={searchFilter} />}
+                    </>)
+            case 1:
+                return (
+                    <>
+                        {isEditMode
+                            ? <ArabicExpressionCreation
+                                selectedWord={selectedArabicItem}
+                                showTranslationsMenu={true}
+                                linkedFrenchExpressionId={null}
+                                returnCallBack={returnCallback} />
+                            : <ArabicExpressionsList
+                                selectedItem={selectedArabicItem}
+                                setSelectedItem={setSelectedArabicItem}
+                                editCallback={editCallBack}
+                                filter={searchFilter} />}
+                    </>
+                )
+            case 2:
+                return (<></>);
+            default:
+                return (<></>);
+        }
     }
 
     return (
         <div className='main-container'>
             {!isEditMode
                 ? <>
-                    <div className='toggle-language-container' onClick={toggleLanguage}>
-                        <div className={getFrenchToggleClassName()}>French</div>
-                        <div className={getArabicToggleClassName()}>Arabic</div>
+                    <div className='toggle-language-container'>
+                        <div className={getToggleButtonClassName(0)} onClick={() => toggleMode(0)}>French</div>
+                        <div className={getToggleButtonClassName(1)} onClick={() => toggleMode(1)}>Arabic</div>
+                        <div className={getToggleButtonClassName(2)} onClick={() => toggleMode(2)}>Categories</div>
                     </div>
                     <div className='form-container'>
                         <label htmlFor='searchFilter'>Search:</label>
@@ -61,29 +98,7 @@ function App() {
                 </>
                 : <></>}
             <EditionBar isEditMode={isEditMode} addCallback={addCallback} returnCallBack={returnCallback} />
-            {isInFrenchMode
-                ? isEditMode
-                    ? <FrenchExpressionCreation
-                        selectedWord={selectedFrenchItem}
-                        showTranslationsMenu={true}
-                        linkedArabicExpressionId={null}
-                        returnCallBack={returnCallback} />
-                    : <FrenchExpressionsList
-                        selectedItem={selectedFrenchItem}
-                        setSelectedItem={setSelectedFrenchItem}
-                        editCallback={editCallBack}
-                        filter={searchFilter} />
-                : isEditMode
-                    ? <ArabicExpressionCreation
-                        selectedWord={selectedArabicItem}
-                        showTranslationsMenu={true}
-                        linkedFrenchExpressionId={null}
-                        returnCallBack={returnCallback} />
-                    : <ArabicExpressionsList
-                        selectedItem={selectedArabicItem}
-                        setSelectedItem={setSelectedArabicItem}
-                        editCallback={editCallBack}
-                        filter={searchFilter} />}
+            {getModeRender()}
         </div>
     )
 }
