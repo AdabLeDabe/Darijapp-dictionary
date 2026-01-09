@@ -111,6 +111,7 @@ button:disabled {
 }
 
 .expression-table-cell-tool {
+    flex: 0.4;
     display: flex;
     align-items: center;
 }
