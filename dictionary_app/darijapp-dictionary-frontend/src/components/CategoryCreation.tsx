@@ -4,6 +4,7 @@ import WordDisplay from "./WordDisplay";
 
 function CategoryCreation() {
     const [categoriesList, setCategoriesList] = useState<Category[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
 
     useEffect(() => {
         fetchData();
@@ -24,6 +25,26 @@ function CategoryCreation() {
         }
     };
 
+    const deleteCategory = async () => {
+        if (selectedCategory == null) {
+            return;
+        }
+        try {
+            const response = await fetch('api/categories/' + selectedCategory?.id, {
+                method: 'DELETE'
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch');
+            }
+
+            setCategoriesList(categoriesList.filter(c => c.id !== selectedCategory.id));
+            setSelectedCategory(null);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     return (
         <>
             <div className="sub-container">
@@ -36,11 +57,12 @@ function CategoryCreation() {
             </div>
             <div className="sub-container">
                 <h2>Edit categories</h2>
-                <button>Delete selected</button>
+                <button disabled={selectedCategory === null} onClick={() => deleteCategory()}>Delete selected</button>
                 <div className="category-list">
                     {categoriesList.map(category => (
-                        <div key={category.id}>
-                            <WordDisplay isSelected={false}>
+                        <div key={category.id}
+                            onClick={() => setSelectedCategory(category)}>
+                            <WordDisplay isSelected={category.id === selectedCategory?.id}>
                                 {category.category_name}
                             </WordDisplay>
                         </div>
