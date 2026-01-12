@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MainApp.Helper;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -32,7 +33,7 @@ namespace MainApp.Controls
         protected override void OnClick()
         {
             base.OnClick();
-            // Call your input-sending logic here, e.g. InputSender.SendKey(KeyChar);
+            InputSender.SendChar(KeyChar);
         }
     }
 }

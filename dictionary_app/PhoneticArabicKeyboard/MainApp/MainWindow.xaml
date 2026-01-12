@@ -7,7 +7,8 @@
         xmlns:controls="clr-namespace:MainApp.Controls"
         Background="#222222"
         mc:Ignorable="d"
-        Title="MainWindow" Height="280" Width="800">
+        Title="Phonetic arabic keyboard" Height="280" Width="800"
+        Topmost="True">
     <Window.Resources>
         <Style TargetType="controls:KeyButton">
             <Setter Property="Background" Value="#333333"/>
