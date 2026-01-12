@@ -1,0 +1,2 @@
+# Darijapp dictionary
+
