@@ -7,7 +7,7 @@
         xmlns:controls="clr-namespace:MainApp.Controls"
         Background="#222222"
         mc:Ignorable="d"
-        Title="Phonetic arabic keyboard" Height="280" Width="800"
+        Title="Phonetic arabic keyboard" Height="300" Width="800"
         Topmost="True">
     <Window.Resources>
         <Style TargetType="controls:KeyButton">
@@ -17,6 +17,7 @@
             <!--<Setter Property="FontWeight" Value="Bold"/>-->
             <Setter Property="FontSize" Value="28" />
             <Setter Property="Padding" Value="10"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="BorderBrush" Value="#666666"/>
             <Setter Property="BorderThickness" Value="2"/>
             <!-- Optional: nice hover effect -->
@@ -48,41 +49,43 @@
     </Window.Resources>
 
     <Viewbox Stretch="Uniform">
-        <UniformGrid Rows="3" Columns="12" Width="800" Height="250">
-            <controls:KeyButton KeyChar="ḍ" Grid.Column="0" Grid.Row="0"/>
-            <controls:KeyButton KeyChar="ṣ" Grid.Column="1" Grid.Row="0"/>
-            <controls:KeyButton KeyChar="ṯ" Grid.Column="2" Grid.Row="0"/>
-            <controls:KeyButton KeyChar="q" Grid.Column="3" Grid.Row="0"/>
-            <controls:KeyButton KeyChar="f" Grid.Column="4" Grid.Row="0"/>
-            <controls:KeyButton KeyChar="ġ" Grid.Column="5" Grid.Row="0"/>
-            <controls:KeyButton KeyChar="ɛ" Grid.Column="6" Grid.Row="0"/>
-            <controls:KeyButton KeyChar="a" Grid.Column="7" Grid.Row="0"/>
-            <controls:KeyButton KeyChar="ẖ" Grid.Column="8" Grid.Row="0"/>
-            <controls:KeyButton KeyChar="ḥ" Grid.Column="9" Grid.Row="0"/>
-            <controls:KeyButton KeyChar="j" Grid.Column="10" Grid.Row="0"/>
-            <controls:KeyButton KeyChar="d" Grid.Column="11" Grid.Row="0"/>
+        <UniformGrid Rows="3" Columns="12" Width="800" Height="300">
+            <controls:KeyButton KeyChar="ḍ" ArabicChar="ض" Grid.Column="0" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="ṣ" ArabicChar="ص" Grid.Column="1" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="ṯ" ArabicChar="ث" Grid.Column="2" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="q" ArabicChar="ق" Grid.Column="3" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="f" ArabicChar="ف" Grid.Column="4" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="ġ" ArabicChar="غ" Grid.Column="5" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="ɛ" ArabicChar="ع" Grid.Column="6" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="h" ArabicChar="ه" Grid.Column="7" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="ẖ" ArabicChar="خ" Grid.Column="8" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="ḥ" ArabicChar="ح" Grid.Column="9" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="j" ArabicChar="ج" Grid.Column="10" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="d" ArabicChar="د" Grid.Column="11" Grid.Row="0"/>
 
-            <controls:KeyButton KeyChar="š" Grid.Column="0" Grid.Row="1"/>
-            <controls:KeyButton KeyChar="s" Grid.Column="1" Grid.Row="1"/>
-            <controls:KeyButton KeyChar="ī" Grid.Column="2" Grid.Row="1"/>
-            <controls:KeyButton KeyChar="b" Grid.Column="3" Grid.Row="1"/>
-            <controls:KeyButton KeyChar="l" Grid.Column="4" Grid.Row="1"/>
-            <controls:KeyButton KeyChar="ā" Grid.Column="5" Grid.Row="1"/>
-            <controls:KeyButton KeyChar="t" Grid.Column="6" Grid.Row="1"/>
-            <controls:KeyButton KeyChar="n" Grid.Column="7" Grid.Row="1"/>
-            <controls:KeyButton KeyChar="m" Grid.Column="8" Grid.Row="1"/>
-            <controls:KeyButton KeyChar="k" Grid.Column="9" Grid.Row="1"/>
-            <controls:KeyButton KeyChar="ṭ" Grid.Column="10" Grid.Row="1"/>
-            <controls:KeyButton KeyChar="ḏ" Grid.Column="11" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="š" ArabicChar="ش" Grid.Column="0" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="s" ArabicChar="س" Grid.Column="1" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="ī" ArabicChar="ي" Grid.Column="2" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="b" ArabicChar="ب" Grid.Column="3" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="l" ArabicChar="ل" Grid.Column="4" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="ā" ArabicChar="ا" Grid.Column="5" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="t" ArabicChar="ت" Grid.Column="6" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="n" ArabicChar="ن" Grid.Column="7" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="m" ArabicChar="م" Grid.Column="8" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="k" ArabicChar="ك" Grid.Column="9" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="ṭ" ArabicChar="ط" Grid.Column="10" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="ḏ" ArabicChar="ذ" Grid.Column="11" Grid.Row="1"/>
 
             <controls:KeyButton KeyChar="ə" Grid.Column="0" Grid.Row="2"/>
-            <controls:KeyButton KeyChar="i" Grid.Column="1" Grid.Row="2"/>
-            <controls:KeyButton KeyChar="u" Grid.Column="2" Grid.Row="2"/>
-            <controls:KeyButton KeyChar="r" Grid.Column="3" Grid.Row="2"/>
-            <controls:KeyButton KeyChar="a" Grid.Column="4" Grid.Row="2"/>
-            <controls:KeyButton KeyChar="ū" Grid.Column="5" Grid.Row="2"/>
-            <controls:KeyButton KeyChar="z" Grid.Column="6" Grid.Row="2"/>
-            <controls:KeyButton KeyChar="ẓ" Grid.Column="7" Grid.Row="2"/>
+            <controls:KeyButton KeyChar="i" ArabicChar="ي" Grid.Column="1" Grid.Row="2"/>
+            <controls:KeyButton KeyChar="y" ArabicChar="ي" Grid.Column="2" Grid.Row="2"/>
+            <controls:KeyButton KeyChar="ū" ArabicChar="و" Grid.Column="3" Grid.Row="2"/>
+            <controls:KeyButton KeyChar="u" ArabicChar="و" Grid.Column="4" Grid.Row="2"/>
+            <controls:KeyButton KeyChar="w" ArabicChar="و" Grid.Column="5" Grid.Row="2"/>
+            <controls:KeyButton KeyChar="r" ArabicChar="ر" Grid.Column="6" Grid.Row="2"/>
+            <controls:KeyButton KeyChar="a" ArabicChar="ى" Grid.Column="7" Grid.Row="2"/>
+            <controls:KeyButton KeyChar="z" ArabicChar="ز" Grid.Column="8" Grid.Row="2"/>
+            <controls:KeyButton KeyChar="ẓ" ArabicChar="ظ" Grid.Column="9" Grid.Row="2"/>
         </UniformGrid>
     </Viewbox>
 </Window>
