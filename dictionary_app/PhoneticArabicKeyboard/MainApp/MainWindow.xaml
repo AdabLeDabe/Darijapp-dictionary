@@ -5,62 +5,83 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MainApp"
         xmlns:controls="clr-namespace:MainApp.Controls"
+        Background="#222222"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+        Title="MainWindow" Height="280" Width="800">
+    <Window.Resources>
+        <Style TargetType="controls:KeyButton">
+            <Setter Property="Background" Value="#333333"/>
+            <!-- dark gray -->
+            <Setter Property="Foreground" Value="White"/>
+            <!--<Setter Property="FontWeight" Value="Bold"/>-->
+            <Setter Property="FontSize" Value="28" />
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="BorderBrush" Value="#666666"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <!-- Optional: nice hover effect -->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border 
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="6"
+                            >
+                            <ContentPresenter 
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#555555"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#222222"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
 
-        <controls:KeyButton KeyChar="ḍ" Grid.Column="0" Grid.Row="0"/>
-        <controls:KeyButton KeyChar="ṣ" Grid.Column="1" Grid.Row="0"/>
-        <controls:KeyButton KeyChar="ṯ" Grid.Column="2" Grid.Row="0"/>
-        <controls:KeyButton KeyChar="q" Grid.Column="3" Grid.Row="0"/>
-        <controls:KeyButton KeyChar="f" Grid.Column="4" Grid.Row="0"/>
-        <controls:KeyButton KeyChar="ġ" Grid.Column="5" Grid.Row="0"/>
-        <controls:KeyButton KeyChar="ɛ" Grid.Column="6" Grid.Row="0"/>
-        <controls:KeyButton KeyChar="a" Grid.Column="7" Grid.Row="0"/>
-        <controls:KeyButton KeyChar="ẖ" Grid.Column="8" Grid.Row="0"/>
-        <controls:KeyButton KeyChar="ḥ" Grid.Column="9" Grid.Row="0"/>
-        <controls:KeyButton KeyChar="j" Grid.Column="10" Grid.Row="0"/>
-        <controls:KeyButton KeyChar="d" Grid.Column="11" Grid.Row="0"/>
+    <Viewbox Stretch="Uniform">
+        <UniformGrid Rows="3" Columns="12" Width="800" Height="250">
+            <controls:KeyButton KeyChar="ḍ" Grid.Column="0" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="ṣ" Grid.Column="1" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="ṯ" Grid.Column="2" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="q" Grid.Column="3" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="f" Grid.Column="4" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="ġ" Grid.Column="5" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="ɛ" Grid.Column="6" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="a" Grid.Column="7" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="ẖ" Grid.Column="8" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="ḥ" Grid.Column="9" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="j" Grid.Column="10" Grid.Row="0"/>
+            <controls:KeyButton KeyChar="d" Grid.Column="11" Grid.Row="0"/>
 
-        <controls:KeyButton KeyChar="š" Grid.Column="0" Grid.Row="1"/>
-        <controls:KeyButton KeyChar="s" Grid.Column="1" Grid.Row="1"/>
-        <controls:KeyButton KeyChar="ī" Grid.Column="2" Grid.Row="1"/>
-        <controls:KeyButton KeyChar="b" Grid.Column="3" Grid.Row="1"/>
-        <controls:KeyButton KeyChar="l" Grid.Column="4" Grid.Row="1"/>
-        <controls:KeyButton KeyChar="ā" Grid.Column="5" Grid.Row="1"/>
-        <controls:KeyButton KeyChar="t" Grid.Column="6" Grid.Row="1"/>
-        <controls:KeyButton KeyChar="n" Grid.Column="7" Grid.Row="1"/>
-        <controls:KeyButton KeyChar="m" Grid.Column="8" Grid.Row="1"/>
-        <controls:KeyButton KeyChar="k" Grid.Column="9" Grid.Row="1"/>
-        <controls:KeyButton KeyChar="ṭ" Grid.Column="10" Grid.Row="1"/>
-        <controls:KeyButton KeyChar="ḏ" Grid.Column="11" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="š" Grid.Column="0" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="s" Grid.Column="1" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="ī" Grid.Column="2" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="b" Grid.Column="3" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="l" Grid.Column="4" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="ā" Grid.Column="5" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="t" Grid.Column="6" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="n" Grid.Column="7" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="m" Grid.Column="8" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="k" Grid.Column="9" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="ṭ" Grid.Column="10" Grid.Row="1"/>
+            <controls:KeyButton KeyChar="ḏ" Grid.Column="11" Grid.Row="1"/>
 
-        <controls:KeyButton KeyChar="ə" Grid.Column="0" Grid.Row="2"/>
-        <controls:KeyButton KeyChar="i" Grid.Column="1" Grid.Row="2"/>
-        <controls:KeyButton KeyChar="u" Grid.Column="2" Grid.Row="2"/>
-        <controls:KeyButton KeyChar="r" Grid.Column="3" Grid.Row="2"/>
-        <controls:KeyButton KeyChar="a" Grid.Column="4" Grid.Row="2"/>
-        <controls:KeyButton KeyChar="ū" Grid.Column="5" Grid.Row="2"/>
-        <controls:KeyButton KeyChar="z" Grid.Column="6" Grid.Row="2"/>
-        <controls:KeyButton KeyChar="ẓ" Grid.Column="7" Grid.Row="2"/>
-    </Grid>
+            <controls:KeyButton KeyChar="ə" Grid.Column="0" Grid.Row="2"/>
+            <controls:KeyButton KeyChar="i" Grid.Column="1" Grid.Row="2"/>
+            <controls:KeyButton KeyChar="u" Grid.Column="2" Grid.Row="2"/>
+            <controls:KeyButton KeyChar="r" Grid.Column="3" Grid.Row="2"/>
+            <controls:KeyButton KeyChar="a" Grid.Column="4" Grid.Row="2"/>
+            <controls:KeyButton KeyChar="ū" Grid.Column="5" Grid.Row="2"/>
+            <controls:KeyButton KeyChar="z" Grid.Column="6" Grid.Row="2"/>
+            <controls:KeyButton KeyChar="ẓ" Grid.Column="7" Grid.Row="2"/>
+        </UniformGrid>
+    </Viewbox>
 </Window>
