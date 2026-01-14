@@ -18,6 +18,12 @@ const variantOptions = [
     { label: 'Tunisian', value: 3 }
 ];
 
+const genderOptions = [
+    { label: 'Neutral', value: 0 },
+    { label: 'Masculine', value: 1 },
+    { label: 'Feminine', value: 2 }
+]
+
 function ArabicExpressionCreation({ selectedWord, linkedFrenchExpressionId, showTranslationsMenu, returnCallBack }: ArabicExpressionCreationProps) {
     const [createdWord, setCreatedWord] = useState<Arabic | null>(selectedWord);
     const [isSaveDisabled, setIsSaveDisabled] = useState<boolean>(true);
@@ -25,7 +31,8 @@ function ArabicExpressionCreation({ selectedWord, linkedFrenchExpressionId, show
     const formData = useRef({
         expression_arabic: '',
         expression_phonetic: '',
-        variant: 0
+        variant: 0,
+        gender: 0
     });
 
     useEffect(() => {
@@ -33,6 +40,7 @@ function ArabicExpressionCreation({ selectedWord, linkedFrenchExpressionId, show
             formData.current.expression_arabic = selectedWord.expression_arabic;
             formData.current.expression_phonetic = selectedWord.expression_phonetic;
             formData.current.variant = selectedWord.variant;
+            formData.current.gender = selectedWord.gender;
         }
     }, []);
 
@@ -46,7 +54,7 @@ function ArabicExpressionCreation({ selectedWord, linkedFrenchExpressionId, show
             || !formData.current.expression_phonetic || formData.current.expression_phonetic.trim() === "" || !isDirty);
     };
 
-    const updateFormDataVariant = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const updateFormDataNumber = (e: React.ChangeEvent<HTMLSelectElement>) => {
         formData.current = {
             ...formData.current,
             [e.target.name]: Number(e.target.value)
@@ -143,10 +151,18 @@ function ArabicExpressionCreation({ selectedWord, linkedFrenchExpressionId, show
                 <label htmlFor="expression_arabic">Expression arabic:</label>
                 <input type="text" name="expression_arabic" onChange={updateFormData} defaultValue={selectedWord?.expression_arabic}></input>
                 <label htmlFor='variant'>Variant:</label>
-                <select name="variant" onChange={updateFormDataVariant} defaultValue={createdWord?.variant ?? 0}>
+                <select name="variant" onChange={updateFormDataNumber} defaultValue={createdWord?.variant ?? 0}>
                     {variantOptions.map(option => (
                         <option key={option.value} value={option.value}>
                             {option.label} {GetVariantDisplay(option.value)}
+                        </option>
+                    ))}
+                </select>
+                <label htmlFor='gender'>Gender:</label>
+                <select name="gender" onChange={updateFormDataNumber} defaultValue={createdWord?.gender ?? 0}>
+                    {genderOptions.map(option => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
                         </option>
                     ))}
                 </select>

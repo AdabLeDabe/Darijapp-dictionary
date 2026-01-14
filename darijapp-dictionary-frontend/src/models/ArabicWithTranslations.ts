@@ -5,5 +5,6 @@ export interface ArabicWithTranslations {
     expression_arabic: string;
     expression_phonetic: string;
     variant: number;
+    gender: number;
     translations: French[];
 }

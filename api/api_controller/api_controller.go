@@ -42,6 +42,7 @@ type ArabicWtihTranslations struct {
 	ExpressionArabic   string          `db:"expression_arabic" json:"expression_arabic"`
 	ExpressionPhonetic string          `db:"expression_phonetic" json:"expression_phonetic"`
 	Variant            int             `db:"variant" json:"variant"`
+	Gender             int             `db:"gender" json:"gender"`
 	Translations       json.RawMessage `db:"translations" json:"translations"`
 }
 
@@ -306,6 +307,7 @@ func getAllArabicWithTranslations(w http.ResponseWriter, r *http.Request) error 
 			a.expression_arabic,
 			a.expression_phonetic,
 			a.variant,
+			a.gender,
 			COALESCE(
 				json_agg(
 					json_build_object(
@@ -323,7 +325,7 @@ func getAllArabicWithTranslations(w http.ResponseWriter, r *http.Request) error 
 		LEFT JOIN 
 			french f ON t.french_id = f.id
 		GROUP BY 
-			a.id, a.expression_arabic, a.expression_phonetic, a.variant
+			a.id, a.expression_arabic, a.expression_phonetic, a.variant, a.gender
 		ORDER BY 
 			a.id
 	`

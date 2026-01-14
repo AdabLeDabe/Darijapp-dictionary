@@ -3,4 +3,5 @@ export interface Arabic {
     expression_arabic: string;
     expression_phonetic: string;
     variant: number;
+    gender: number;
 }
