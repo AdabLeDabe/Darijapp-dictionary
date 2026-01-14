@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS arabic (
     id SERIAL PRIMARY KEY,
     expression_arabic VARCHAR(255) NOT NULL,
     expression_phonetic VARCHAR(255) NOT NULL,
-    variant INTEGER CHECK (variant >= 0 AND variant <= 3),
+    variant INTEGER CHECK (variant >= 0 AND variant <= 3) DEFAULT 0,
+    gender INTEGER CHECK (gender >= 0 AND gender <= 2) DEFAULT 0,
     CONSTRAINT arabic_expression_not_blank CHECK (LENGTH(TRIM(expression_arabic)) > 0),
     CONSTRAINT phonetic_expression_not_blank CHECK (LENGTH(TRIM(expression_phonetic)) > 0)
 );
