@@ -34,6 +34,7 @@ type Arabic struct {
 	ExpressionArabic   string `db:"expression_arabic" json:"expression_arabic"`
 	ExpressionPhonetic string `db:"expression_phonetic" json:"expression_phonetic"`
 	Variant            int    `db:"variant" json:"variant"`
+	Gender             int    `db:"gender" json:"gender"`
 }
 
 type ArabicWtihTranslations struct {
@@ -380,8 +381,8 @@ func addArabic(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
-	query := "INSERT INTO arabic (expression_arabic, expression_phonetic, variant) VALUES ($1, $2, $3) RETURNING id"
-	err = db.QueryRow(query, arabic.ExpressionArabic, arabic.ExpressionPhonetic, arabic.Variant).Scan(&arabic.Id)
+	query := "INSERT INTO arabic (expression_arabic, expression_phonetic, variant, gender) VALUES ($1, $2, $3, $4) RETURNING id"
+	err = db.QueryRow(query, arabic.ExpressionArabic, arabic.ExpressionPhonetic, arabic.Variant, arabic.Gender).Scan(&arabic.Id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return err
@@ -418,7 +419,7 @@ func updateArabic(w http.ResponseWriter, r *http.Request) error {
 
 	arabic.Id, _ = strconv.Atoi(id)
 
-	query := "UPDATE arabic SET expression_arabic = :expression_arabic, expression_phonetic = :expression_phonetic, variant = :variant WHERE id = :id"
+	query := "UPDATE arabic SET expression_arabic = :expression_arabic, expression_phonetic = :expression_phonetic, variant = :variant, gender = :gender WHERE id = :id"
 	result, err := db.NamedExec(query, &arabic)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
