@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import type { Category } from "../models/Category";
 import WordDisplay from "./WordDisplay";
+import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 
 function CategoryCreation() {
     const [categoriesList, setCategoriesList] = useState<Category[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
     const [createdCategoryName, setCreatedCategoryName] = useState<string>("");
+    const [isEditingCategory, setIsEditingCategory] = useState<boolean>(false);
+    const [editedCategoryName, setEditedCategoryName] = useState<string>("");
 
     useEffect(() => {
         fetchData();
@@ -74,18 +77,56 @@ function CategoryCreation() {
         }
     }
 
+    const updateCategory = async () => {
+        try {
+            const response = await fetch('/api/categories/' + selectedCategory?.id, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    category_name: editedCategoryName
+                })
+            });
+
+            if (!response.ok)
+                throw new Error('Failed to update category');
+
+            const result = await response.json();
+            console.log('Success: ', result);
+
+            await fetchData();
+        } catch (error) {
+            console.log('Error: ', error)
+        }
+    }
+
+    const openEditCategoryModal = () => {
+        if (selectedCategory === null) {
+            return;
+        }
+        setEditedCategoryName(selectedCategory?.category_name);
+        setIsEditingCategory(true);
+    }
+
+    const saveAndCloseModal = async () => {
+        await updateCategory();
+        setIsEditingCategory(false);
+    }
+
     return (
         <>
             <div className="sub-container">
                 <h2>Add category</h2>
                 <div className='form-container'>
-                    <label htmlFor='searchFilter'>Name:</label>
-                    <input name="searchFilter" type='text' onChange={updateCategoryName}></input>
+                    <label htmlFor='categoryName'>Name:</label>
+                    <input name="categoryName" type='text' onChange={updateCategoryName}></input>
                 </div>
                 <button onClick={() => addCategory()}>Add</button>
             </div>
             <div className="sub-container">
                 <h2>Edit categories</h2>
+                <button disabled={selectedCategory === null} onClick={() => openEditCategoryModal()}>Edit selected</button>
                 <button disabled={selectedCategory === null} onClick={() => deleteCategory()}>Delete selected</button>
                 <div className="category-list">
                     {categoriesList.map(category => (
@@ -98,6 +139,21 @@ function CategoryCreation() {
                     ))}
                 </div>
             </div>
+
+            <Dialog open={isEditingCategory} onClose={() => setIsEditingCategory(false)}>
+                <div className="modal-backdrop">
+                    <DialogPanel className="modal-content search-modal-content">
+                        <DialogTitle>Edit category</DialogTitle>
+                        <div className="sub-container">
+                            <div className='form-container'>
+                                <label htmlFor='editCategoryName'>Name:</label>
+                                <input name="editCategoryName" type='text' value={editedCategoryName} onChange={e => setEditedCategoryName(e.target.value)}></input>
+                            </div>
+                            <button onClick={async () => await saveAndCloseModal()}>Save and return</button>
+                        </div>
+                    </DialogPanel>
+                </div>
+            </Dialog>
         </>
     );
 }
